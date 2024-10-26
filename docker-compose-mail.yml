@@ -1,0 +1,29 @@
+services:
+
+  # http://smtp:pass123@127.0.0.1:8025
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    hostname: mailhog
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+    volumes:
+      - ./mailhog/auth:/auth:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      MH_HOSTNAME: mail.mbo.dev
+      MH_AUTH_FILE: /auth # smtp:pass123
+    healthcheck:
+      test: wget --spider --tries 1 http://smtp:pass123@localhost:8025
+      interval: 1s
+      timeout: 1s
+      start_period: 1s
+      retries: 5
+    networks:
+      - mail
+
+networks:
+  mail:
+    name: mail_net

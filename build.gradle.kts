@@ -14,9 +14,16 @@ group = mavenGroup
 dependencies {
     implementation(platform(libs.bom))
 
+    api(libs.kotlin.logging)
+    api(libs.spring.kotlin.validation)
+
+    api("com.fasterxml.jackson.module:jackson-module-kotlin")
+    api("org.springframework.boot:spring-boot-starter-validation")
+    api("org.springframework.boot:spring-boot-starter-json")
+    api("org.springframework.boot:spring-boot-starter-mail")
+
     // TEST ---------
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

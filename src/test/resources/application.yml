@@ -1,0 +1,17 @@
+spring:
+  mail:
+    host: localhost
+    port: 1025
+    username: smtp
+    password: pass123
+    properties:
+      mail:
+        default-from: sender@example.com
+        debug: false
+        smtp:
+          port: ${spring.mail.port}
+          auth: true
+          starttls:
+            enable: false
+            required: false
+        transport.protocol: smtp
