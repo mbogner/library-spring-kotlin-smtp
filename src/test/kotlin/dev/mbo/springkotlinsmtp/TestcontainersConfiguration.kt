@@ -15,25 +15,24 @@ open class TestcontainersConfiguration {
         const val CONTAINER_PORT_SMTP = 1025
         const val CONTAINER_PORT_HTTP = 8025
 
-        private val mailhogContainer: GenericContainer<*> =
-            GenericContainer(DockerImageName.parse("mailhog/mailhog:latest"))
+        private val mailpitContainer: GenericContainer<*> =
+            GenericContainer(DockerImageName.parse("axllent/mailpit:latest"))
                 .withExposedPorts(CONTAINER_PORT_SMTP, CONTAINER_PORT_HTTP)
                 .waitingFor(
-                    Wait.forHttp("/api/v2/messages")
+                    Wait.forHttp("/api/v1/messages")
                         .forPort(CONTAINER_PORT_HTTP)
                         .withStartupTimeout(Duration.ofSeconds(30))
                 )
                 .waitingFor(Wait.forListeningPorts(CONTAINER_PORT_SMTP))
 
         init {
-            mailhogContainer.start()
-            System.setProperty("spring.mail.host", mailhogContainer.host)
-            System.setProperty("spring.mail.port", mailhogContainer.getMappedPort(CONTAINER_PORT_SMTP).toString())
+            mailpitContainer.start()
+            System.setProperty("spring.mail.host", mailpitContainer.host)
+            System.setProperty("spring.mail.port", mailpitContainer.getMappedPort(CONTAINER_PORT_SMTP).toString())
         }
     }
 
     @Bean
-    @Qualifier("mailhog")
-    open fun mailhogContainer(): GenericContainer<*> = mailhogContainer
-
+    @Qualifier("mailpit")
+    open fun mailpitContainer(): GenericContainer<*> = mailpitContainer
 }

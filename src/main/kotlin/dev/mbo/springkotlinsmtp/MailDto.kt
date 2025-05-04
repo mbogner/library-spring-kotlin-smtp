@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.util.Locale
+import java.util.UUID
 
 @OneNotEmpty(
     fields = [
@@ -14,6 +15,9 @@ import java.util.Locale
     ]
 )
 data class MailDto(
+    @field:JsonProperty("id")
+    val id: UUID = UUID.randomUUID(),
+
     @field:JsonProperty("snd")
     @field:Email
     val from: String? = null,
@@ -38,4 +42,7 @@ data class MailDto(
     @field:JsonProperty("txt")
     @field:NotBlank
     val text: String,
+
+    @field:JsonProperty("ihy")
+    val isHtml: Boolean = false,
 )
